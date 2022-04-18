@@ -2,8 +2,8 @@ package site.wetsion.framework.mitosis.service;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
-import site.wetsion.framework.datasource.mapper.LabelMapper;
-import site.wetsion.framework.datasource.mapper.TemplateLabelRelationMapper;
+import site.wetsion.framework.mitosis.datasource.mapper.LabelMapper;
+import site.wetsion.framework.mitosis.datasource.mapper.TemplateLabelRelationMapper;
 import site.wetsion.framework.mitosis.common.constant.ExceptionConstant;
 import site.wetsion.framework.mitosis.core.converter.TemplateConverter;
 import site.wetsion.framework.mitosis.model.dto.LabelDTO;

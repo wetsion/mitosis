@@ -13,6 +13,7 @@ import java.util.List;
  * @author wetsion
  * @date 4/17/22
  */
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/label")
 public class LabelController {

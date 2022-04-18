@@ -1,4 +1,4 @@
-package site.wetsion.framework.datasource.config;
+package site.wetsion.framework.mitosis.datasource.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.context.annotation.Bean;

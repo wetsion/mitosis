@@ -1,5 +1,5 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="site.wetsion.framework.datasource.mapper.LabelMapper">
+<mapper namespace="site.wetsion.framework.mitosis.datasource.mapper.LabelMapper">
 
     <sql id="TABLE_NAME">tb_label</sql>
 

@@ -1,4 +1,4 @@
-package site.wetsion.framework.datasource.mapper;
+package site.wetsion.framework.mitosis.datasource.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
