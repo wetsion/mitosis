@@ -1,0 +1,30 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.wetsion.framework.datasource.mapper.LabelMapper">
+
+    <sql id="TABLE_NAME">tb_label</sql>
+
+    <sql id="COLUMNS">
+        id, `code`, `name`, `dataType`, `created`, `updated`, `deleted`
+    </sql>
+
+    <select id="listByCondition" resultType="site.wetsion.framework.mitosis.model.entity.LabelDO">
+        SELECT <include refid="COLUMNS"/> FROM <include refid="TABLE_NAME"/>
+        <where>
+            <if test="param != null and param.name != null">
+                `name` LIKE CONCAT(#{param.name}, '%')
+            </if>
+            <if test="param != null and param.dataType != null">
+                AND `dataType` = #{param.dataType}
+            </if>
+        </where>
+    </select>
+
+    <select id="listByIdList" resultType="site.wetsion.framework.mitosis.model.entity.LabelDO">
+        SELECT <include refid="COLUMNS"/> FROM <include refid="TABLE_NAME"/>
+        WHERE id IN
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+
+</mapper>

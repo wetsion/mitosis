@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 /**
+ * controller统一异常处理
+ *
  * @author wetsion
  * @date 4/18/22
  */

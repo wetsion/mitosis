@@ -7,9 +7,11 @@ import lombok.Data;
  * @date 4/17/22
  */
 @Data
-public class TemplateLabelDO {
+public class LabelDO {
 
     private Long id;
+
+    private String code;
 
     private String name;
 

@@ -14,11 +14,20 @@
     <dependencies>
         <dependency>
             <groupId>site.wetsion.framework</groupId>
+            <artifactId>mitosis-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>site.wetsion.framework</groupId>
             <artifactId>mitosis-core</artifactId>
         </dependency>
         <dependency>
             <groupId>site.wetsion.framework</groupId>
             <artifactId>mitosis-datasource</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
         </dependency>
 
         <dependency>

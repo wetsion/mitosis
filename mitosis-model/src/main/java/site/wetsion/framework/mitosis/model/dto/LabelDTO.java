@@ -9,9 +9,11 @@ import java.io.Serializable;
  * @date 4/17/22
  */
 @Data
-public class TemplateLabelDTO implements Serializable {
+public class LabelDTO implements Serializable {
 
     private Long id;
+
+    private String code;
 
     private String name;
 
