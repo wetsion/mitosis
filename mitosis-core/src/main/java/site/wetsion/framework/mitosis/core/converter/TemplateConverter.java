@@ -3,7 +3,9 @@ package site.wetsion.framework.mitosis.core.converter;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import site.wetsion.framework.mitosis.model.dto.LabelDTO;
+import site.wetsion.framework.mitosis.model.dto.TemplateDTO;
 import site.wetsion.framework.mitosis.model.entity.LabelDO;
+import site.wetsion.framework.mitosis.model.entity.TemplateDO;
 
 import java.util.List;
 
@@ -19,4 +21,8 @@ public interface TemplateConverter {
     LabelDTO templateLabelDoToDto(LabelDO labelDO);
 
     List<LabelDTO> templateLabelDoListToDtoList(List<LabelDO> labelDO);
+
+    TemplateDTO templateDoToDto(TemplateDO templateDO);
+
+    List<TemplateDTO> templateDoListToDtoList(List<TemplateDO> templateDOList);
 }

@@ -18,6 +18,11 @@
         </dependency>
 
         <dependency>
+            <groupId>site.wetsion.framework</groupId>
+            <artifactId>mitosis-common</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
         </dependency>

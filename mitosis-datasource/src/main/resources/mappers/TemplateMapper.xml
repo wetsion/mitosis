@@ -2,4 +2,36 @@
 <mapper namespace="site.wetsion.framework.mitosis.datasource.mapper.TemplateMapper">
 
     <sql id="TABLE_NAME">tb_template</sql>
+
+    <select id="getById" resultType="site.wetsion.framework.mitosis.model.entity.TemplateDO">
+        SELECT * FROM <include refid="TABLE_NAME"/>
+        WHERE `deleted` = 0 AND `id` = #{id}
+    </select>
+
+    <select id="getByTitle" resultType="site.wetsion.framework.mitosis.model.entity.TemplateDO">
+        SELECT * FROM <include refid="TABLE_NAME"/>
+        WHERE `deleted` = 0 AND `title` LIKE CONCAT(#{title}, '%')
+        <if test="page != null">
+            LIMIT #{page.sqlLimit}
+            OFFSET #{page.sqlOffset}
+        </if>
+    </select>
+
+    <select id="countByTitle" resultType="long">
+        SELECT COUNT(*) FROM <include refid="TABLE_NAME"/>
+        WHERE `deleted` = 0 AND `title` LIKE CONCAT(#{title}, '%')
+    </select>
+
+    <insert id="create" parameterType="site.wetsion.framework.mitosis.model.entity.TemplateDO">
+        INSERT INTO <include refid="TABLE_NAME"/>(title, created, updated, deleted)
+        VALUES (#{data.title}, unix_timestamp(now()), unix_timestamp(now()), 0)
+    </insert>
+
+    <update id="update" parameterType="site.wetsion.framework.mitosis.model.entity.TemplateDO">
+        UPDATE <include refid="TABLE_NAME"/>
+        SET updated = unix_timestamp(now())
+        <if test="data != null and data.title != null">, title = #{data.title}</if>
+        <if test="data != null and data.content != null">, content = #{data.content}</if>
+        WHERE id = #{data.id}
+    </update>
 </mapper>

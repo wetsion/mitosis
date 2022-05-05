@@ -4,12 +4,31 @@
     <sql id="TABLE_NAME">tb_template_label</sql>
 
     <sql id="COLUMNS">
-        id, `templateId`, `labelId`, `code`, `created`, `updated`, `deleted`
+        id, <include refid="COLUMNS_NO_KEY"/>
+    </sql>
+
+    <sql id="COLUMNS_NO_KEY">
+        `templateId`, `labelId`, `code`, `created`, `updated`, `deleted`
     </sql>
 
     <select id="listByTemplateId" resultType="site.wetsion.framework.mitosis.model.entity.TemplateLabelRelationDO">
         SELECT <include refid="COLUMNS"/> FROM <include refid="TABLE_NAME"/>
-        where `templateId` = #{templateId}
+        where `deleted` = 0 AND `templateId` = #{templateId}
     </select>
+
+    <update id="deleteRelatedLabels">
+        UPDATE <include refid="TABLE_NAME"/>
+        SET `deleted` = unix_timestamp(now())
+        WHERE `templateId` = #{templateId}
+    </update>
+
+    <insert id="insertRelatedLabels">
+        INSERT INTO <include refid="TABLE_NAME"/>( <include refid="COLUMNS_NO_KEY"/> )
+        VALUES
+        <foreach collection="relations" item="relation" separator=",">
+            (#{relation.templateId}, #{relation.labelId}, #{relation.code}, unix_timestamp(now()),
+            unix_timestamp(now()), 0)
+        </foreach>
+    </insert>
 
 </mapper>

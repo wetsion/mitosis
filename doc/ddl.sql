@@ -9,7 +9,7 @@ CREATE TABLE `tb_label` (
   PRIMARY KEY (`id`),
   KEY `idx_code` (`code`) USING BTREE,
   KEY `idx_name` (`name`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 CREATE TABLE `mitosis`.`tb_template` (
@@ -21,4 +21,15 @@ CREATE TABLE `mitosis`.`tb_template` (
   `deleted` int NOT NULL DEFAULT '0' COMMENT '删除时间',
   PRIMARY KEY (`id`),
   KEY `idx_title` (`title`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `tb_template_label` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `templateId` int(11) NOT NULL COMMENT '模版ID',
+  `labelId` int(11) NOT NULL COMMENT '标签ID',
+  `code` varchar(64) DEFAULT NULL COMMENT '标签code',
+  `created` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `updated` int(11) NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `deleted` int(11) NOT NULL DEFAULT '0' COMMENT '删除时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

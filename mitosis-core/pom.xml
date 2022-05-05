@@ -16,6 +16,10 @@
             <groupId>site.wetsion.framework</groupId>
             <artifactId>mitosis-model</artifactId>
         </dependency>
+        <dependency>
+            <groupId>site.wetsion.framework</groupId>
+            <artifactId>mitosis-common</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -29,6 +33,16 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
     </dependencies>
 </project>

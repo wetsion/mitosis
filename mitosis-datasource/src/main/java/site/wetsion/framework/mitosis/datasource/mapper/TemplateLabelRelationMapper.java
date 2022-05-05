@@ -14,4 +14,8 @@ import java.util.List;
 public interface TemplateLabelRelationMapper {
 
     List<TemplateLabelRelationDO> listByTemplateId(@Param("templateId") Long templateId);
+
+    int deleteRelatedLabels(@Param("templateId") Long templateId);
+
+    int insertRelatedLabels(@Param("relations") List<TemplateLabelRelationDO> relations);
 }
