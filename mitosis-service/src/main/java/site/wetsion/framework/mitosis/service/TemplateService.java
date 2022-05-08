@@ -109,17 +109,12 @@ public class TemplateService {
         return templateMapper.countByTitle(param.getTitle());
     }
 
-    public List<LabelDTO> queryLabels(TemplateLabelQueryParam param) {
-        List<LabelDO> templateLabels = labelMapper.listByCondition(param);
-        return TemplateConverter.INSTANCE.templateLabelDoListToDtoList(templateLabels);
-    }
-
     /**
      * 查询模版上已关联的标签
      * @param templateId 模版ID
      * @return
      */
-    public List<LabelDTO> queryLabelsOnTemplat(Long templateId) {
+    public List<LabelDTO> queryLabelsOnTemplate(Long templateId) {
         Objects.requireNonNull(templateId, ExceptionConstant.TEMPLATE_UNKNOWN);
         List<TemplateLabelRelationDO> relations = templateLabelRelationMapper.listByTemplateId(templateId);
         if (CollectionUtils.isEmpty(relations)) {

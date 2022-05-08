@@ -18,4 +18,6 @@ public class LabelDTO implements Serializable {
     private String name;
 
     private Integer dataType;
+
+    private Long created;
 }
