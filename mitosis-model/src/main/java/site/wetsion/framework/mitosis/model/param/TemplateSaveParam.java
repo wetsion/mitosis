@@ -19,5 +19,5 @@ public class TemplateSaveParam implements Serializable {
 
     private String content;
 
-    private List<Long> relatedLabels;
+    private List<TemplateSaveRelatedLabelParam> relatedLabelList;
 }

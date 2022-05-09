@@ -42,10 +42,10 @@
         <where>
             `deleted` = 0
             <if test="param != null and param.name != null">
-                AND `name` LIKE CONCAT(#{param.name}, '%')
+                AND `name` LIKE CONCAT('%', #{param.name}, '%')
             </if>
             <if test="param != null and param.code != null">
-                AND `code` LIKE CONCAT(#{param.code}, '%')
+                AND `code` LIKE CONCAT('%', #{param.code}, '%')
             </if>
             <if test="param != null and param.dataType != null">
                 AND `dataType` = #{param.dataType}

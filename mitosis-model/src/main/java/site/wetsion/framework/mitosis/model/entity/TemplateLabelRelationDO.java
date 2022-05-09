@@ -17,6 +17,8 @@ public class TemplateLabelRelationDO {
 
     private String code;
 
+    private Long labelLocationPk;
+
     private Integer created;
 
     private Integer updated;

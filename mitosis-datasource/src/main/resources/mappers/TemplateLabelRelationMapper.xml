@@ -8,7 +8,7 @@
     </sql>
 
     <sql id="COLUMNS_NO_KEY">
-        `templateId`, `labelId`, `code`, `created`, `updated`, `deleted`
+        `templateId`, `labelId`, `code`, `labelLocationPk`, `created`, `updated`, `deleted`
     </sql>
 
     <select id="listByTemplateId" resultType="site.wetsion.framework.mitosis.model.entity.TemplateLabelRelationDO">
@@ -26,8 +26,8 @@
         INSERT INTO <include refid="TABLE_NAME"/>( <include refid="COLUMNS_NO_KEY"/> )
         VALUES
         <foreach collection="relations" item="relation" separator=",">
-            (#{relation.templateId}, #{relation.labelId}, #{relation.code}, unix_timestamp(now()),
-            unix_timestamp(now()), 0)
+            (#{relation.templateId}, #{relation.labelId}, #{relation.code}, #{relation.labelLocationPk},
+            unix_timestamp(now()), unix_timestamp(now()), 0)
         </foreach>
     </insert>
 

@@ -21,5 +21,5 @@ public class TemplateWrapperDTO implements Serializable {
 
     private TemplateDTO template;
 
-    private List<LabelDTO> relatedLabels;
+    private List<RelatedLabelDTO> relatedLabels;
 }
