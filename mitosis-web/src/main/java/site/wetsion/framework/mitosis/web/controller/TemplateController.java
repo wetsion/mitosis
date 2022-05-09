@@ -1,16 +1,18 @@
 package site.wetsion.framework.mitosis.web.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import site.wetsion.framework.mitosis.common.PageR;
 import site.wetsion.framework.mitosis.common.Pagination;
 import site.wetsion.framework.mitosis.common.R;
-import site.wetsion.framework.mitosis.common.util.FileUtil;
 import site.wetsion.framework.mitosis.model.dto.TemplateDTO;
 import site.wetsion.framework.mitosis.model.dto.TemplateWrapperDTO;
 import site.wetsion.framework.mitosis.model.param.TemplateQueryParam;
 import site.wetsion.framework.mitosis.model.param.TemplateSaveParam;
+import site.wetsion.framework.mitosis.service.LabelService;
 import site.wetsion.framework.mitosis.service.TemplateService;
 
 import javax.annotation.Resource;
@@ -29,6 +31,9 @@ public class TemplateController {
 
     @Resource
     private TemplateService templateService;
+
+    @Resource
+    private LabelService labelService;
 
     @GetMapping("/page")
     public R<PageR<TemplateDTO>> pageQuery(@RequestParam("title") String title,
@@ -70,7 +75,23 @@ public class TemplateController {
         } catch (IOException e) {
             return;
         }
-        File file = new File(fileStr);
+        genFile(fileStr, response);
+    }
+
+    @PostMapping("/mockRenderPdf")
+    public void mockRenderTemplate(@RequestBody String req, HttpServletResponse response) {
+        String fileStr = null;
+        try {
+            JSONObject request = JSON.parseObject(req);
+            fileStr = templateService.renderTemplateWithReplacement(request);
+        } catch (IOException e) {
+            return;
+        }
+        genFile(fileStr, response);
+    }
+
+    private void genFile(String fileName, HttpServletResponse response) {
+        File file = new File(fileName);
         response.reset();
         response.setContentType("application/octet-stream");
         response.setCharacterEncoding("utf-8");

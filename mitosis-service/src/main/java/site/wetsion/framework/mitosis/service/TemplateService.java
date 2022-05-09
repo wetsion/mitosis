@@ -1,8 +1,11 @@
 package site.wetsion.framework.mitosis.service;
 
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import site.wetsion.framework.mitosis.common.Pagination;
+import site.wetsion.framework.mitosis.core.parser.jsoup.JsoupTemplateParser;
 import site.wetsion.framework.mitosis.core.render.wkhtml.ComplexWkHtmlToPdfRender;
 import site.wetsion.framework.mitosis.datasource.mapper.LabelMapper;
 import site.wetsion.framework.mitosis.datasource.mapper.TemplateLabelRelationMapper;
@@ -44,12 +47,38 @@ public class TemplateService {
     public String renderTemplate(Long templateId) throws IOException {
         TemplateDO templateDO = templateMapper.getById(templateId);
         Objects.requireNonNull(templateDO, "template not exist");
+        return renderHtmlToPdf(templateDO.getContent(), templateDO.getTitle());
+    }
+
+    private String renderHtmlToPdf(String html, String fileName) throws IOException {
         ComplexWkHtmlToPdfRender complexWkHtmlToPdfRender = new ComplexWkHtmlToPdfRender();
-        return complexWkHtmlToPdfRender.renderFromHtmlString(templateDO.getContent(),
-                templateDO.getTitle(), "--encoding utf8 --page-height 200 --page-width 100 --margin-left 1 " +
+        return complexWkHtmlToPdfRender.renderFromHtmlString(html,
+                fileName, "--encoding utf8 --page-height 200 --page-width 100 --margin-left 1 " +
                         "--margin-top 3 --margin-top 3");
     }
 
+    public String renderTemplateWithReplacement(JSONObject replacement) throws IOException {
+        TemplateDO template = templateMapper.getById(replacement.getLong("templateId"));
+        List<LabelDTO> relatedLabels = queryLabelsOnTemplate(template.getId());
+        String result = template.getContent();
+        if (CollectionUtils.isNotEmpty(relatedLabels)) {
+            Map<String, Object> replace = Maps.newHashMap();
+            for (LabelDTO labelDTO : relatedLabels) {
+                String key = "span.customLabel[data-value=\"" + labelDTO.getId() + "\"]";
+                String value = replacement.getString(labelDTO.getCode());
+                replace.put(key, value);
+            }
+            JsoupTemplateParser parser = new JsoupTemplateParser();
+            result = parser.parse(template.getContent(), replace);
+        }
+        return renderHtmlToPdf(result, template.getTitle());
+    }
+
+    /**
+     * 编辑预览模版
+     * @param templateId
+     * @return
+     */
     public TemplateWrapperDTO previewTemplate(Long templateId) {
         TemplateDO templateDO = templateMapper.getById(templateId);
         Objects.requireNonNull(templateDO, "template not exist");
@@ -76,6 +105,11 @@ public class TemplateService {
                 .build();
     }
 
+    /**
+     * 创建模版
+     * @param param
+     * @return
+     */
     public Boolean createTemplate(TemplateSaveParam param) {
         TemplateDO create = new TemplateDO();
         create.setTitle(param.getTitle());
@@ -133,7 +167,8 @@ public class TemplateService {
         if (CollectionUtils.isEmpty(relations)) {
             return null;
         }
-        List<Long> labelIds = relations.stream().map(TemplateLabelRelationDO::getLabelId).collect(Collectors.toList());
+        List<Long> labelIds = new ArrayList<>(relations.stream().map(TemplateLabelRelationDO::getLabelId)
+                .collect(Collectors.toSet()));
         List<LabelDO> labelDOS = labelMapper.listByIdList(labelIds);
         return TemplateConverter.INSTANCE.templateLabelDoListToDtoList(labelDOS);
     }
