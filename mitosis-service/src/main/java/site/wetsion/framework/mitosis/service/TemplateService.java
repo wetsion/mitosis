@@ -1,12 +1,18 @@
 package site.wetsion.framework.mitosis.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.collections4.CollectionUtils;
+import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
 import site.wetsion.framework.mitosis.common.Pagination;
+import site.wetsion.framework.mitosis.core.parser.ReplaceFunctionBuilder;
+import site.wetsion.framework.mitosis.core.parser.TemplateSelectionReplaceFunction;
 import site.wetsion.framework.mitosis.core.parser.jsoup.JsoupTemplateParser;
 import site.wetsion.framework.mitosis.core.render.wkhtml.ComplexWkHtmlToPdfRender;
+import site.wetsion.framework.mitosis.core.resolver.ILabelResolver;
+import site.wetsion.framework.mitosis.core.CoreFactory;
 import site.wetsion.framework.mitosis.datasource.mapper.LabelMapper;
 import site.wetsion.framework.mitosis.datasource.mapper.TemplateLabelRelationMapper;
 import site.wetsion.framework.mitosis.common.constant.ExceptionConstant;
@@ -19,7 +25,6 @@ import site.wetsion.framework.mitosis.model.dto.TemplateWrapperDTO;
 import site.wetsion.framework.mitosis.model.entity.LabelDO;
 import site.wetsion.framework.mitosis.model.entity.TemplateDO;
 import site.wetsion.framework.mitosis.model.entity.TemplateLabelRelationDO;
-import site.wetsion.framework.mitosis.model.param.TemplateLabelQueryParam;
 import site.wetsion.framework.mitosis.model.param.TemplateQueryParam;
 import site.wetsion.framework.mitosis.model.param.TemplateSaveParam;
 import site.wetsion.framework.mitosis.model.param.TemplateSaveRelatedLabelParam;
@@ -36,6 +41,9 @@ import java.util.stream.Collectors;
  */
 @Service
 public class TemplateService {
+
+    @Resource
+    private CoreFactory coreFactory;
 
     @Resource
     private LabelMapper labelMapper;
@@ -68,8 +76,12 @@ public class TemplateService {
                 String value = replacement.getString(labelDTO.getCode());
                 replace.put(key, value);
             }
+            List<TemplateSelectionReplaceFunction> functions = Lists.newArrayList();
+            for (LabelDTO labelDTO : relatedLabels) {
+                functions.add(ReplaceFunctionBuilder.buildFunction(labelDTO, replacement.getString(labelDTO.getCode())));
+            }
             JsoupTemplateParser parser = new JsoupTemplateParser();
-            result = parser.parse(template.getContent(), replace);
+            result = parser.parse(template.getContent(), functions);
         }
         return renderHtmlToPdf(result, template.getTitle());
     }
