@@ -17,6 +17,8 @@ public class LabelDO {
 
     private Integer dataType;
 
+    private String config;
+
     private Integer created;
 
     private Integer updated;

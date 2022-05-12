@@ -8,7 +8,7 @@
     </sql>
 
     <sql id="COLUMNS_NO_KEY">
-        `code`, `name`, `dataType`, `created`, `updated`, `deleted`
+        `code`, `name`, `dataType`, `config`, `created`, `updated`, `deleted`
     </sql>
 
     <select id="listByCondition" resultType="site.wetsion.framework.mitosis.model.entity.LabelDO">
@@ -67,7 +67,8 @@
 
     <insert id="create" parameterType="site.wetsion.framework.mitosis.model.entity.LabelDO">
         INSERT INTO <include refid="TABLE_NAME"/>( <include refid="COLUMNS_NO_KEY"/> )
-        VALUES (#{data.code}, #{data.name}, #{data.dataType}, unix_timestamp(now()), unix_timestamp(now()), 0)
+        VALUES (#{data.code}, #{data.name}, #{data.dataType}, #{data.config}, unix_timestamp(now()),
+        unix_timestamp(now()), 0)
     </insert>
 
 </mapper>
