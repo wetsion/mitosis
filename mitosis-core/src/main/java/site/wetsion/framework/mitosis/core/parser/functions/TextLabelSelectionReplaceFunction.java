@@ -4,13 +4,14 @@ import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import site.wetsion.framework.mitosis.core.ComponentTaker;
 import site.wetsion.framework.mitosis.core.parser.TemplateSelectionReplaceFunction;
 import site.wetsion.framework.mitosis.core.resolver.impl.TextLabelResolver;
 import site.wetsion.framework.mitosis.model.dto.LabelDTO;
 import site.wetsion.framework.mitosis.model.dto.label.TextLabelDef;
 
-import java.util.Objects;
+import java.util.Iterator;
 
 /**
  * 针对文本类型标签的 html选择器 选择替换内容
@@ -31,14 +32,18 @@ public class TextLabelSelectionReplaceFunction implements TemplateSelectionRepla
 
     @Override
     public void replace(Document document) {
-        Element element = document.select(buildSelection()).first();
-        if (Objects.isNull(element)) {
+        Elements elements = document.select(buildSelection());
+        if (elements.isEmpty()) {
             return;
         }
-        element.removeClass("customLabel");
-        element.removeClass("highlight");
-        TextLabelResolver resolver = ComponentTaker.getBean(TextLabelResolver.class);
-        element.html(resolver.resolveToHtml(targetValue, buildTextLabelDef()));
+        Iterator<Element> elementIterator = elements.iterator();
+        while (elementIterator.hasNext()) {
+            Element element = elementIterator.next();
+            element.removeClass("customLabel");
+            element.removeClass("highlight");
+            TextLabelResolver resolver = ComponentTaker.getBean(TextLabelResolver.class);
+            element.html(resolver.resolveToHtml(targetValue, buildTextLabelDef()));
+        }
     }
 
     private String buildSelection() {
