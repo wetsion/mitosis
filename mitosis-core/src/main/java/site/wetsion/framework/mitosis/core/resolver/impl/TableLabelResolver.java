@@ -12,6 +12,7 @@ import site.wetsion.framework.mitosis.model.dto.label.TableLabelData;
 import site.wetsion.framework.mitosis.model.dto.label.TableLabelDef;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -37,7 +38,7 @@ public class TableLabelResolver implements ILabelResolver<TableLabelData, TableL
         validData(data);
         StringBuffer tableSb = new StringBuffer();
         tableSb.append(buildTableTag(def));
-
+        tableSb.append(buildTableBody(data));
         tableSb.append(HtmlRenderConstant.TABLE_TAG_SUFFIX);
         return tableSb.toString();
     }
@@ -54,6 +55,31 @@ public class TableLabelResolver implements ILabelResolver<TableLabelData, TableL
     private void validData(TableLabelData tableLabelData) {
         Objects.requireNonNull(tableLabelData, ExceptionConstant.INVALID_LABEL_DATA);
     }
+
+    private String buildTableBody(TableLabelData data) {
+        List<TableLabelData.TableRowData> rows = data.getValue();
+        StringBuffer body = new StringBuffer();
+        for (TableLabelData.TableRowData row : rows) {
+            StringBuffer rowSb = new StringBuffer();
+            rowSb.append("<tr>");
+            for (TableLabelData.TableCellData cellData : row.getCells()) {
+                String colspan = StringUtils.EMPTY;
+                String rowspan = StringUtils.EMPTY;
+                if (Objects.nonNull(cellData.getColspan())) {
+                    colspan = String.format("colspan=\"%d\"", cellData.getColspan());
+                }
+                if (Objects.nonNull(cellData.getRowspan())) {
+                    rowspan = String.format("rowspan=\"%d\"", cellData.getRowspan());
+                }
+                rowSb.append(String.format(HtmlRenderConstant.TABLE_COL_TAG_PREFIX, rowspan, colspan));
+                rowSb.append(cellData.getValue());
+                rowSb.append(HtmlRenderConstant.TABLE_COL_TAG_SUFFIX);
+            }
+            rowSb.append("</tr>");
+        }
+        return body.toString();
+    }
+
 
     private String buildTableTag(TableLabelDef def) {
         StringBuffer stringBuffer = new StringBuffer();

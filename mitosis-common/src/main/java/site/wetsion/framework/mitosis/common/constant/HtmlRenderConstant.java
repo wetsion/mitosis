@@ -11,4 +11,12 @@ public interface HtmlRenderConstant {
     String TABLE_TAG_PREFIX = "<table %s>";
 
     String TABLE_TAG_SUFFIX = "</table>";
+
+    String TABLE_ROW_TAG_PREFIX = "<tr %s>";
+
+    String TABLE_ROW_TAG_SUFFIX = "</tr>";
+
+    String TABLE_COL_TAG_PREFIX = "<td %s %s>";
+
+    String TABLE_COL_TAG_SUFFIX = "</td>";
 }

@@ -16,13 +16,22 @@ public class TableLabelData implements ILabelData {
 
     private static final long serialVersionUID = 7355591953533957846L;
 
-    private List<List<TableCellData>> value;
+    private List<TableRowData> value;
 
+
+    @Data
+    public static class TableRowData implements Serializable {
+
+        private static final long serialVersionUID = 272990866238520605L;
+
+        private List<TableCellData> cells;
+    }
 
     /**
      * 表格单元格数据
      */
-    static class TableCellData implements Serializable {
+    @Data
+    public static class TableCellData implements Serializable {
 
         private static final long serialVersionUID = -6137700403405395374L;
         /**
