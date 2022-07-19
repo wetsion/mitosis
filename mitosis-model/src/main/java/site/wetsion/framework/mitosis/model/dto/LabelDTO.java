@@ -22,4 +22,6 @@ public class LabelDTO implements Serializable {
     private String config;
 
     private Long created;
+
+
 }

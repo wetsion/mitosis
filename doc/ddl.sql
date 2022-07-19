@@ -3,6 +3,7 @@ CREATE TABLE `tb_label` (
   `code` varchar(64) NOT NULL COMMENT '标签代码',
   `name` varchar(128) NOT NULL COMMENT '标签名',
   `dataType` int NOT NULL DEFAULT '0' COMMENT '数据类型',
+  `config` text COMMENT '标签定义配置，例如样式',
   `created` int NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated` int NOT NULL DEFAULT '0' COMMENT '更新时间',
   `deleted` int NOT NULL DEFAULT '0' COMMENT '删除时间',
